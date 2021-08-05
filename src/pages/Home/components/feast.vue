@@ -14,7 +14,7 @@
                 </div>
             </div>
             <div class="price">
-                $ 2554678.958
+                $ {{price}}
             </div>
             <div class="ending-con">
                 <div class="txt">7 Minutes 30 Second</div>
@@ -24,7 +24,7 @@
                 <div class="btn">
                     <img src="@/assets/least-point.png"/>
                 </div>
-                <div class="txt">Next Reward: 254875 MaMo</div>
+                <div class="txt">Next Reward: {{nextReward}} MaMo</div>
             </div>
         </section>
         <div class="least-pic">
@@ -32,6 +32,17 @@
         </div>
     </div>
 </template>
+
+<script>
+export default {
+    data() {
+        return {
+            price: '83833.95',
+            nextReward: '254875'
+        }
+    }
+}
+</script>
 
 <style lang="scss" scoped>
     .page-least{

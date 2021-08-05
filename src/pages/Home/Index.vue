@@ -16,13 +16,13 @@
                 <img class="mamo-experiment" src="@/assets/page-title.png"/>
             </div>
             <div class="menu-con">
-                <div class="menu-item">
+                <div class="menu-item" @click="goAnchor('#puzzle')">
                     <img class="btn" src="@/assets/card-btn-1.png" />
                 </div>
-                <div class="menu-item">
+                <div class="menu-item" @click="goAnchor('#hub')">
                     <img class="btn" src="@/assets/card-btn-2.png" />
                 </div>
-                <div class="menu-item">
+                <div class="menu-item" @click="goAnchor('#feast')">
                     <img class="btn" src="@/assets/card-btn-3.png" />
                 </div>
                 <div class="menu-item">
@@ -33,8 +33,11 @@
                 </div>
             </div>
 
+            <div id="puzzle"></div>
             <happy-go></happy-go>
+            <div id="feast"></div>
             <feast></feast>
+            <div id="hub"></div>
             <stake></stake>
             <self-footer></self-footer>
 
@@ -80,14 +83,23 @@ export default {
     async mounted () {
         const that = this;
 
+
         const web3 = that.$web3;
-        const accounts = await web3.eth.getAccounts();
+        const accounts = await web3.eth.getAccounts(res=>{
+            console.log(res)
+        });
         that.currentAccount = accounts && accounts.length > 0 ? accounts[0] : null;
-        // 返回指定地址账户的余额
-        const balance = await web3.eth.getBalance(that.currentAccount);
-        that.balance = web3.utils.fromWei(balance, 'ether');
+        if(that.currentAccount){
+            // 返回指定地址账户的余额
+            const balance = await web3.eth.getBalance(that.currentAccount);
+            that.balance = web3.utils.fromWei(balance, 'ether');
+        }
     },
     methods: {
+        // mark
+        goAnchor(selector) {
+            document.querySelector(selector).scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"});
+        },
         // 转账测试
         transfer(){
             if(!this.$web3){

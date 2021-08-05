@@ -1,5 +1,7 @@
 import Web3 from "web3";
 
+// 1.0.0-beta.37
+
 const init = () => new Promise(async (resolve, reject) => {
     // Modern dapp browsers...
     if (window.ethereum) {

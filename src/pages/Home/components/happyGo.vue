@@ -6,7 +6,7 @@
                 <div class="sub-title">Round #20 Contract Drained in</div>
                 <div class="countdown">{{secondToTime(countdownTime)}}</div>
                 <div class="active-pot">Active Pot (Mamo)</div>
-                <div class="active-pot-num">554845741.658</div>
+                <div class="active-pot-num">{{activePot}}</div>
             </div>
             <div class="purchase">
                 <img src="@/assets/purchase.png"/>
@@ -19,18 +19,18 @@
                     <img class="lucky-title" src="@/assets/lucky-title.png"/>
                     <div class="lucky-one linear-border">
                         <div class="address">
-                            0x6e321536eCb4AdE7186f9680701C4A7eAb3919Bf
+                            {{luckyAddress}}
                         </div>
                         <div class="account">
-                            <label>Buy Account</label>
-                            <span>58954959.93 BUSD</span>
+                            <label>Buy Amount</label>
+                            <span>{{luckyAmount}} BUSD</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="right-con">
-            <div class="how-to-play">
+            <div class="how-to-play" @click="howToPlay">
                 <img src="@/assets/how-to-play.png"/>
             </div>
             <div class="reward-pool-con">
@@ -40,21 +40,26 @@
                 <div class="contract-address-con">
                     <div class="top">
                         <div class="title">CONTRACT ADDRESS</div>
-                        <div class="copy-btn">COPY</div>
+                        <div class="copy-btn" @click="copyAddress(contractAddress)">COPY</div>
                     </div>
                     <div class="address">
-                        0x6e321536eCb4AdE7186f9680701C4A7eAb3919Bf
+                        {{contractAddress}}
                     </div>
                 </div>
             </div>
             <div style="height: 50px;"></div>
-            <trade-log></trade-log>
+            <trade-log :list="dexList"></trade-log>
         </div>
     </section>
 </template>
 
 <script>
 import TradeLog from './tradeLog';
+import {getDex} from '@/api/common';
+import Clipboard from 'clipboard';
+import swal from 'sweetalert';
+
+let prevTxtoken = '';
 
 export default {
     components: {
@@ -62,23 +67,63 @@ export default {
     },
     data () {
         return {
-            // 倒计时
+            dexList: [],
+            // timer
             countDownTimer: null,
-            countdownTime: 60*15
+            countdownTime: 60*15,
+            dexTimer: null,
+            contractAddress: '0x6e321536eCb4AdE7186f9680701C4A7eAb3919Bf',
+            luckyAddress: '0x6e321536eCb4AdE7186f9680701C4A7eAb3919Bf',
+            luckyAmount: '895384.94',
+            activePot: '9487394.0953'
         }
     },
     async mounted () {
         const that = this;
-        // 倒计时
-        clearInterval(this.countDownTimer);
-        this.countDownTimer = setInterval(() => {
-            that.countdownTime--
-            if (that.countdownTime === 0) {
-                clearInterval(this.countDownTimer)
-            }
-        }, 1000)
+        // load new trade
+        that.loadDexList();
+        this.dexTimer = setInterval(function(){
+            that.loadDexList();
+        }, 10*1000);
+    },
+    beforeDestroy(){
+        this.dexTimer && clearInterval(this.dexTimer);
     },
     methods: {
+        loadDexList(){
+            const that = this;
+            getDex({}).then(res=>{
+                if(!res || res.length <= 0){
+                    return;
+                }
+                let dexList = [];
+                for(let i in res) {
+                    let item = res[i];
+                    if (item[3] == 'Sell') {
+                        continue;
+                    }
+                    dexList.push(item);
+                }
+                this.dexList = dexList;
+                const firstDex = res[0][0];
+                if(firstDex && prevTxtoken != firstDex){
+                    prevTxtoken = firstDex;
+                    that.runTimer();
+                }
+            })
+        },
+        runTimer(){
+            const that = this;
+            // 倒计时
+            clearInterval(this.countDownTimer);
+            this.countdownTime = 60*15;
+            this.countDownTimer = setInterval(() => {
+                that.countdownTime--
+                if (that.countdownTime === 0) {
+                    clearInterval(this.countDownTimer)
+                }
+            }, 1000)
+        },
         // 秒转时间
         secondToTime(second){
             let s = Math.floor(second%60);
@@ -90,6 +135,33 @@ export default {
             let d = Math.floor((second / 3600) / 24);
 
             return h + ":" + m + ":" + s;
+        },
+        // how to play
+        howToPlay(){
+            swal({
+                title: "How to play!",
+                text: "content...!",
+                button: "OK",
+            });
+        },
+        // copy
+        copyAddress(text){
+            const clipboard = new Clipboard(event.target, {
+                text: () => text
+            });
+            clipboard.on('success', () => {
+                swal("Successfully copied", "You can paste it!", "success");
+                clipboard.off('error')
+                clipboard.off('success')
+                clipboard.destroy()
+            })
+            clipboard.on('error', () => {
+                console.log('error');
+                swal("Successfully copied", "You clicked the button!", "error");
+                clipboard.off('error')
+                clipboard.off('success')
+                clipboard.destroy()
+            })
         }
     }
 }

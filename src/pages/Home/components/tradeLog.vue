@@ -2,23 +2,29 @@
     <div class="log-page-con linear-border">
         <div class="title">Last Purchase Log</div>
         <div class="list-con">
-            <div class="item" v-for="(item, idx) in [0,1]">
-                <div class="row-title">Contract Address</div>
-                <div class="address">0x6e321536eCb4AdE7186f9680701C4A7eAb3919Bf</div>
+            <div class="item" v-for="(item, idx) in list.slice(0, 2)">
+                <div class="row-title">TxToken</div>
+                <div class="address">{{item[0]}}</div>
                 <div class="row">
                     <div class="col">
                         <div class="col-title">Buy Account</div>
-                        <div class="col-value">85735.84 BUSD</div>
+                        <div class="col-value">{{item[4]}}</div>
                     </div>
                     <div class="col">
                         <div class="col-title">Trade Time</div>
-                        <div class="col-value">2021-07-19 20:25:36</div>
+                        <div class="col-value">{{item[1]}}</div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </template>
+
+<script>
+export default {
+    props: ['list']
+}
+</script>
 
 <style scoped lang="scss">
     .log-page-con{
@@ -57,6 +63,11 @@
                 color: #fff;
                 font-size: 18px;
                 margin-bottom: 10px;
+                max-width: 500px;
+
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
             }
             .row{
                 display: flex;

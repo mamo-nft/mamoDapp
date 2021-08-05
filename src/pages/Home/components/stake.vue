@@ -2,51 +2,76 @@
     <section class="stake-lp-con">
         <div class="title-con">
             <div class="logo">
-                <img src="@/assets/logo.png" />
+                <img src="@/assets/feast-logo.png" />
             </div>
             <div class="col">
                 <span class="title">MaMo Earned</span>
-                <span class="number">858882</span>
+                <span class="number">{{mamoEarned}}</span>
             </div>
             <div class="col">
                 <span class="title">APR</span>
-                <span class="number">44733</span>
+                <span class="number">{{apr}}</span>
             </div>
             <div class="col">
                 <span class="title">Total Staked</span>
-                <span class="number">9782</span>
+                <span class="number">{{totalStaked}}</span>
             </div>
             <div class="col">
                 <span class="title">Ends In</span>
-                <span class="number">658882</span>
+                <span class="number">{{endsIn}}</span>
             </div>
             <div class="col">
-                <span class="number">Details</span>
+                <span class="number pointer" @click="showDetail = !showDetail">Details<img class="arrow-icon" :class="showDetail ? 'active' : ''" src="@/assets/arrow-top.png"/></span>
             </div>
         </div>
-        <div class="content-con">
+        <div class="content-con" v-if="showDetail">
             <div class="head-logo">
                 <img src="@/assets/head-icon.png" />
             </div>
             <div class="link-to">
                 <a href="#">Add Liquidity<img src="@/assets/share-btn.png"/></a>
                 <div style="height: 20px;"></div>
-                <a href="#" target="_blank">Go To Pancake Swap<img src="@/assets/share-btn.png"/></a>
+                <a href="https://pancakeswap.finance/" target="_blank">Go To Pancake Swap<img src="@/assets/share-btn.png"/></a>
             </div>
             <div class="box-con">
                 <div class="box-title">MaMo Earned</div>
                 <div class="earned">
                     <span>--</span>
-                    <button>Harvest</button>
+                    <button @click="harvest">Harvest</button>
                 </div>
             </div>
             <div class="box-con">
                 <div class="box-title">LP Staked</div>
-                <button class="approve-btn">Approve</button>
+                <button class="approve-btn" @click="approve">Approve</button>
             </div>
         </div>
     </section>
 </template>
+
+<script>
+export default {
+    data() {
+        return {
+            showDetail: false,
+            mamoEarned: '83833.95',
+            apr: '25.86%',
+            totalStaked: '98948',
+            endsIn: '86943'
+        }
+    },
+    mounted(){
+        // TODO
+    },
+    methods:{
+        harvest(){
+            // TODO
+        },
+        approve(){
+            // TODO
+        }
+    }
+}
+</script>
 
 <style lang="scss" scoped>
     .stake-lp-con{
@@ -85,6 +110,20 @@
                 font-size: 16px;
                 font-weight: bold;
                 margin-top: 15px;
+
+                .arrow-icon{
+                    height: 15px;
+                    margin-left: 10px;
+                    vertical-align: middle;
+
+                    &.active{
+                        transform: rotate(180deg);
+                        margin-top:-3px;
+                    }
+                }
+                &.pointer{
+                    cursor: pointer;
+                }
             }
         }
     }

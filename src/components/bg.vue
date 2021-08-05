@@ -4,6 +4,6 @@
         <div style="background-color: #000;height:20px;position: relative;z-index: 1;"></div>
         <div style="background-color: #efa344;height:600px;position: relative;z-index: 1;"></div>
         <div style="background-color: #000;height:20px;position: relative;z-index: 1;"></div>
-        <div style="background-color: #ff5064;height:1000px;transform: rotate(28deg);margin-top:-200px;"></div>
+        <div style="background-color: #ff5064;height:800px;transform: rotate(28deg);margin-top:-200px;"></div>
     </div>
 </template>
