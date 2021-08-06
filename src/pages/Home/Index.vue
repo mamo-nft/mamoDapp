@@ -41,6 +41,7 @@
 <!--            </div>-->
 <!--            <button @click="getPhotos">获取图片</button>-->
         </div>
+        <wallet></wallet>
     </div>
 </template>
 
@@ -51,6 +52,7 @@ import HappyGo from './components/happyGo';
 import Feast from './components/feast';
 import Stake from './components/stake';
 import SelfFooter from './components/footer';
+import Wallet from '@/components/wallet';
 
 export default {
     name: 'Index',
@@ -60,15 +62,11 @@ export default {
         HappyGo,
         Feast,
         Stake,
-        SelfFooter
+        SelfFooter,
+        Wallet
     },
     data () {
         return {
-            web3: null,
-            currentAccount: null,
-            balance: 0,
-            toAddress: null,
-            txHash: null,
             // 倒计时
             countDownTimer: null,
             countdownTime: 60*15
@@ -76,7 +74,6 @@ export default {
     },
     async mounted () {
         const that = this;
-
 
         const web3 = that.$web3;
         const accounts = await web3.eth.getAccounts(res=>{

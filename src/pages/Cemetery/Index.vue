@@ -1,6 +1,5 @@
 <template>
     <div class="page-con">
-        <bg></bg>
         <div class="content-con">
             <self-header></self-header>
             <div class="page-title">
@@ -13,6 +12,7 @@
             <self-progress></self-progress>
             <self-footer></self-footer>
         </div>
+        <wallet></wallet>
     </div>
 </template>
 
@@ -21,13 +21,15 @@ import SelfHeader from '@/components/header';
 import LeftTime from './components/leftTime';
 import SelfProgress from './components/progress';
 import SelfFooter from './components/footer';
+import Wallet from '@/components/wallet';
 
 export default {
     components:{
         SelfHeader,
         SelfFooter,
         LeftTime,
-        SelfProgress
+        SelfProgress,
+        Wallet
     },
 }
 </script>

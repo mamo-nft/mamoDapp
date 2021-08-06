@@ -24,21 +24,20 @@
                     </div>
                 </div>
                 <div class="brief">
-                    PRESALE LAUNCH DAY<span>AUGUST 25,2021</span>
+                    PRESALE LAUNCH DAY<br/><span>AUGUST 25,2021</span>
                 </div>
                 <div class="sub-brief">
-                    3% of total supply (5 billion MaMo) is available for sale soon!
+                    3% of total supply (5 billion MaMo)<br/>is available for sale soon!
                 </div>
             </section>
-            <div class="left-time-pic" @click="purchase">
-                <div class="btn">Purchase<br/>Token</div>
-                <img src="@/assets/pointer-icon.png"/>
-            </div>
         </div>
         <div class="card-con">
             <div class="item">
                 <span>FUNDED {{fundedRate}}%</span>
                 <span>= ${{fundedPrice}}</span>
+            </div>
+            <div class="left-time-pic" @click="purchase">
+                <img src="@/assets/purchase-mobile-btn.png"/>
             </div>
             <div class="item">
                 <span>{{mamoPrice}} BUSD</span>
@@ -90,55 +89,30 @@ export default {
 
 <style lang="scss" scoped>
     .main-con{
-        width: 1200px;
-        margin: 50px auto 0 auto;
+        margin: 50px 20px 0 20px;
     }
     .time-con{
         position: relative;
-        padding-bottom: 100px;
     }
     .left-time-pic{
-        width: 300px;
-        height: 200px;
-        position: absolute;
-        bottom: 0;
-        right: -150px;
-        z-index: 9;
-        overflow: hidden;
+        width: 120px;
+        text-align: center;
 
         img{
-            width: 80px;
+            width: 100px;
             height: auto;
-            margin-top: -50px;
             margin-left: 0;
-        }
-        .btn{
-            width: 140px;
-            height: 140px;
-            margin-left: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            line-height: 1.4em;
-            color: #fff;
-            font-size: 26px;
-            font-weight: bold;
-            text-shadow: 3px 3px 5px rgba(0,0,0,.8);
-            background-image: linear-gradient(135deg, #FFF944, #F8AB31);
-            border-radius: 75px 75px 75px 0;
-            border: 10px solid #fff;
         }
     }
     .left-time-con{
         flex: 1;
-        height: 450px;
-        margin-top: 100px;
+        height: 250px;
+        margin-top: 30px;
         border-radius: 10px;
         background-image: linear-gradient(45deg, #00FFF9, #099DFE);
 
         &::before{
-            margin: 10px;
+            margin: 8px;
             border-radius: 10px;
         }
         div{
@@ -149,12 +123,11 @@ export default {
             display: flex;
             flex-direction: row;
             justify-content: space-between;
-            margin: -80px auto 20px auto;
-            width: 680px;
+            margin: -20px 25px 20px 25px;
 
             .item{
-                width: 120px;
-                height: 120px;
+                width: 60px;
+                height: 60px;
                 border-radius: 10px;
                 background-image: linear-gradient(135deg, #FFF944, #F8AB31);
                 display: flex;
@@ -166,24 +139,24 @@ export default {
                 span{
                     color: #fff;
                     display: block;
-                    font-size: 50px;
+                    font-size: 30px;
                     font-weight: bold;
                 }
                 label{
                     color: #fff;
                     display: block;
-                    font-size: 15px;
+                    font-size: 11px;
                     font-weight: bold;
                 }
             }
         }
         .brief{
-            font-size: 30px;
+            font-size: 14px;
             font-weight: bold;
             color: #fff;
             text-align: center;
             text-shadow: 3px 3px 5px rgba(0,0,0,.8);
-            padding-top: 35px;
+            padding-top: 5px;
 
             span{
                 color: #F8AB31;
@@ -191,21 +164,21 @@ export default {
             }
         }
         .sub-brief{
-            font-size: 18px;
+            font-size: 12px;
             color: #fff;
             text-align: center;
-            padding-top: 20px;
+            padding-top: 10px;
         }
 
     }
     .left-time-con .title-con{
-        width: 700px;
-        height: 200px;
+        width: 260px;
+        height: 70px;
         overflow: hidden;
         position: relative;
         z-index: 999;
-        left: -20px;
-        top: -120px;
+        left: -3px;
+        top: -30px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -230,22 +203,21 @@ export default {
         flex-direction: row;
         position: relative;
         z-index: 9;
+        margin-top: 20px;
 
         .item{
+            flex: 1;
             background-color: #3c3c3c;
-            height: 100px;
+            height: 60px;
             color: #fff;
-            font-size: 26px;
+            font-size: 13px;
             display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            width: 350px;
             border-radius: 10px;
             font-weight: bold;
             line-height: 1.4em;
-            margin-left: 60px;
-            margin-top: -50px;
 
             span{
                 display: block;
