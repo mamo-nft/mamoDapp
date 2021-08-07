@@ -1,25 +1,25 @@
 <template>
     <div class="main-con">
         <div class="footer-left">
-            <div class="title">Join MaMo Community Channels</div>
+            <div class="title">How to Participate</div>
             <div class="brief">
-                1.Buy MaMo Community Channels;<br/>
-                2.Transfer your BUSD to your BSC address;<br/>
-                3.Enter current webpage and press "PURCHASE TOKEN";<br/>
-                4.Enter your purchase amount;<br/>
-                5.Complete your transaction and done!
+                1. Buy BUSD/USDT from Binance;<br/>
+                2. Transfer BUSD/USDT to your BSC address;<br/>
+                3. Enter current webpage and click "PURCHASE TOKEN";<br/>
+                4. Enter your purchase amount;<br/>
+                5. Complete your transaction and done!
             </div>
         </div>
         <div class="footer-right">
             <div class="title">
-                Join Mamo Experiment
+                Nitify Me When It`s Ready
             </div>
             <div class="send-email-con">
                 <input type="email" placeholder="Your Email Address"/>
                 <div class="send-email-btn">Subscribe</div>
             </div>
 
-            <div class="title">Join MaMo Community Channels</div>
+            <div class="title">MaMo Community Channels</div>
             <div class="link-con">
                 <a href="#" target="_blank" class="link-item">
                     <img src="@/assets/link-icon-1.png"/>

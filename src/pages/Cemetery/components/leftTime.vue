@@ -32,7 +32,7 @@
             </section>
             <div class="left-time-pic" @click="purchase">
                 <div class="btn">Purchase<br/>Token</div>
-                <img src="@/assets/pointer-icon.png"/>
+                <img class="animate__animated animate__heartBeat animate__infinite" src="@/assets/pointer-icon.png"/>
             </div>
         </div>
         <div class="card-con">
@@ -55,6 +55,7 @@ export default {
             price: '83833.95',
             nextReward: '254875',
             countDown: [],
+            timer: null,
             // 数据
             fundedRate: 50,
             fundedPrice: 294823.85,
@@ -62,7 +63,13 @@ export default {
         }
     },
     mounted(){
-        this.countDown = this.parseTime(3600*24*18+21689);
+        const time = Date.parse(new Date('2021-08-25'));
+        this.timer = setInterval(() => {
+            this.countDown = this.parseTime((time - Date.parse(new Date()))/1000);
+        }, 1000)
+    },
+    beforeDestroy(){
+        this.timer && clearInterval(this.timer)
     },
     methods:{
         parseTime(time){
@@ -79,7 +86,7 @@ export default {
             mm = mm < 10 ? '0' + mm : mm;
             ss = ss < 10 ? '0' + ss : ss;
 
-            return ['--', '--', '--', '--'];
+            return [DD, hh, mm, ss];
         },
         purchase(){
             // TODO
@@ -98,23 +105,23 @@ export default {
         padding-bottom: 100px;
     }
     .left-time-pic{
-        width: 300px;
-        height: 200px;
+        width: 380px;
+        height: 260px;
         position: absolute;
         bottom: 0;
-        right: -150px;
+        right: -200px;
         z-index: 9;
         overflow: hidden;
 
         img{
-            width: 80px;
+            width: 100px;
             height: auto;
-            margin-top: -50px;
+            margin-top: -60px;
             margin-left: 0;
         }
         .btn{
-            width: 140px;
-            height: 140px;
+            width: 160px;
+            height: 160px;
             margin-left: 30px;
             display: flex;
             align-items: center;
@@ -122,12 +129,13 @@ export default {
             text-align: center;
             line-height: 1.4em;
             color: #fff;
-            font-size: 26px;
+            font-size: 28px;
             font-weight: bold;
             text-shadow: 3px 3px 5px rgba(0,0,0,.8);
             background-image: linear-gradient(135deg, #FFF944, #F8AB31);
-            border-radius: 75px 75px 75px 0;
+            border-radius: 85px 85px 85px 0;
             border: 10px solid #fff;
+            cursor: pointer;
         }
     }
     .left-time-con{

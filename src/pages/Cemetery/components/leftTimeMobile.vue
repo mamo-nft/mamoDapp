@@ -37,7 +37,7 @@
                 <span>= ${{fundedPrice}}</span>
             </div>
             <div class="left-time-pic" @click="purchase">
-                <img src="@/assets/purchase-mobile-btn.png"/>
+                <img class="animate__animated animate__heartBeat animate__infinite" src="@/assets/purchase-mobile-btn.png"/>
             </div>
             <div class="item">
                 <span>{{mamoPrice}} BUSD</span>
@@ -54,6 +54,7 @@ export default {
             price: '83833.95',
             nextReward: '254875',
             countDown: [],
+            timer: null,
             // 数据
             fundedRate: 50,
             fundedPrice: 294823.85,
@@ -61,7 +62,13 @@ export default {
         }
     },
     mounted(){
-        this.countDown = this.parseTime(3600*24*18+21689);
+        const time = Date.parse(new Date('2021-08-25'));
+        this.timer = setInterval(() => {
+            this.countDown = this.parseTime((time - Date.parse(new Date()))/1000);
+        }, 1000)
+    },
+    beforeDestroy(){
+        this.timer && clearInterval(this.timer)
     },
     methods:{
         parseTime(time){
@@ -78,7 +85,7 @@ export default {
             mm = mm < 10 ? '0' + mm : mm;
             ss = ss < 10 ? '0' + ss : ss;
 
-            return ['--', '--', '--', '--'];
+            return [DD, hh, mm, ss];
         },
         purchase(){
             // TODO
@@ -97,6 +104,7 @@ export default {
     .left-time-pic{
         width: 120px;
         text-align: center;
+        position: relative;
 
         img{
             width: 100px;
@@ -129,12 +137,12 @@ export default {
                 width: 60px;
                 height: 60px;
                 border-radius: 10px;
-                background-image: linear-gradient(135deg, #FFF944, #F8AB31);
+                background-image: linear-gradient(135deg, #eeb644, #F8AB31);
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
                 align-items: center;
-                text-shadow: 3px 3px 5px rgba(0,0,0,.8);
+                text-shadow: 3px 3px 5px rgba(81,49,10,.8);
 
                 span{
                     color: #fff;
@@ -178,7 +186,7 @@ export default {
         position: relative;
         z-index: 999;
         left: -3px;
-        top: -30px;
+        top: -35px;
         display: flex;
         align-items: center;
         justify-content: center;
