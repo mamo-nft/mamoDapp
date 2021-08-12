@@ -56,7 +56,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
     .main-con{
         padding: 30px 0 0 0;
         display: flex;

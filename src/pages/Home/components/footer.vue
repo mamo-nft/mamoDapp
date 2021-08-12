@@ -52,7 +52,7 @@
     </div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
     .page-footer{
         background-color: #151515;
         margin-top: 50px;

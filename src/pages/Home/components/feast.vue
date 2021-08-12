@@ -44,7 +44,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
     .page-least{
         width: 1100px;
         display: flex;

@@ -131,7 +131,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="less" scoped>
     .page-con{
         background-color: #000;
     }

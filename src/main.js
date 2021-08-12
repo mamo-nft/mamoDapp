@@ -10,15 +10,12 @@ Vue.prototype.$emitBus = new Vue();
 import animated from 'animate.css'
 Vue.use(animated)
 
-import NCWeb3 from "@/utils/web3";
-NCWeb3.init().then(async web3 => {
-    Vue.prototype.$web3 = web3;
-
-    /* eslint-disable no-new */
-    new Vue({
-        el: '#app',
-        router,
-        components: { App },
-        template: '<App/>'
-    })
-});
+import store from './store/store'
+/* eslint-disable no-new */
+new Vue({
+    el: '#app',
+    router,
+    store,
+    components: { App },
+    template: '<App/>'
+})

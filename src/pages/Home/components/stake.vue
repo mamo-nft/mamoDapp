@@ -73,7 +73,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
     .stake-lp-con{
         width: 1200px;
         margin: 50px auto 0 auto;

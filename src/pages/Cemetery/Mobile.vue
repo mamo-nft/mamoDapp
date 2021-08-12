@@ -34,7 +34,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
     .page-con{
         width: 100%;
         background-color: #000;

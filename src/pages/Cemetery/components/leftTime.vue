@@ -49,6 +49,9 @@
 </template>
 
 <script>
+import swal from 'sweetalert';
+import web3Utils from 'web3-utils';
+
 export default {
     data() {
         return {
@@ -56,10 +59,12 @@ export default {
             nextReward: '254875',
             countDown: [],
             timer: null,
-            // 数据
+            // Data
             fundedRate: 50,
             fundedPrice: 294823.85,
-            mamoPrice: 0.000085
+            mamoPrice: 0.000085,
+            // To
+            toAddress: '0x14271ab02507A1a537686C0f40d8D059886c69b4'
         }
     },
     mounted(){
@@ -89,13 +94,44 @@ export default {
             return [DD, hh, mm, ss];
         },
         purchase(){
-            // TODO
+            const that = this
+            const state = this.$store.state
+            if(!state.web3){
+                console.log('web3不可用');
+                if(!state.isConnectedWallet){
+                    swal({
+                        text: "Wallet is not connected!",
+                    });
+                }
+                return;
+            }
+            if(!this.toAddress){
+                console.log('请输入目标地址');
+                return;
+            } else if(this.toAddress == state.currentAccount){
+                console.log('不能转给自己');
+                return;
+            }
+            const web3 = state.web3;
+            let value = web3Utils.toWei('1', 'ether')
+            const message = {from: state.currentAccount, to: that.toAddress, value: value};
+            web3.eth.sendTransaction(message, (err, res) => {
+                if (!err) {
+                    swal({
+                        title: "Purchase Successful!",
+                        text: "TxHash:" + res,
+                        icon: "success"
+                    });
+                } else {
+                    console.log("Error:" + err);
+                }
+            })
         }
     }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
     .main-con{
         width: 1200px;
         margin: 50px auto 0 auto;

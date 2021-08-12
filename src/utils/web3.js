@@ -5,11 +5,10 @@ import Web3 from "web3";
 const init = () => new Promise(async (resolve, reject) => {
     // Modern dapp browsers...
     if (window.ethereum) {
+        console.log(1)
         const web3 = new Web3(window.ethereum);
         try {
-            // Request account access if needed
-            const accounts = await window.ethereum.enable();
-            // Acccounts now exposed
+            await window.ethereum.enable();
             resolve(web3);
         } catch (error) {
             reject(error);
@@ -17,6 +16,7 @@ const init = () => new Promise(async (resolve, reject) => {
     }
     // Legacy dapp browsers...
     else if (window.web3) {
+        console.log(2)
         // Use Mist/MetaMask's provider.
         const web3 = window.web3;
         console.log("Injected web3 detected.");
@@ -24,6 +24,7 @@ const init = () => new Promise(async (resolve, reject) => {
     }
     // Fallback to localhost; use dev console port by default...
     else {
+        console.log(3)
         const provider = new Web3.providers.HttpProvider(
             "http://127.0.0.1:8545"
         );
@@ -32,6 +33,21 @@ const init = () => new Promise(async (resolve, reject) => {
         resolve(web3);
     }
 });
+
+const getWeb3 = async () => {
+    let web3 = null;
+    if (window.ethereum) {
+        web3 = new Web3(window.ethereum);
+    } else if (window.web3) {
+        web3 = window.web3;
+    } else {
+        const provider = new Web3.providers.HttpProvider(
+            "http://127.0.0.1:8545"
+        );
+        web3 = new Web3(provider);
+    }
+    return web3;
+}
 
 const loadAbi = async (abiJSON, web3) => {
     web3 = web3 ? web3 : await init();

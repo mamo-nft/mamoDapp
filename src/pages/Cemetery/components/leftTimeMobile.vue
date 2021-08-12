@@ -94,7 +94,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
     .main-con{
         margin: 50px 20px 0 20px;
     }

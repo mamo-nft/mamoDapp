@@ -6,14 +6,24 @@
                 <span class="title">Current Account</span>
                 <span class="address">{{currentAccount || '--'}}</span>
             </div>
-            <div class="no-connected" v-if="!isConnected">
-                Wallet is not connected!
+            <div v-if="isConnected">
+                <div class="balance-title">Balance</div>
+                <div class="balance">{{balance}} {{chainId && symbolList[chainId] ? symbolList[chainId] : ''}}</div>
+            </div>
+            <div v-else>
+                <div class="no-connected">
+                    Wallet is not connected!
+                </div>
+                <div class="connect-btn" @click="initWallet">Connect</div>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import MyWeb3 from '@/utils/web3';
+import web3Utils from 'web3-utils';
+
 export default {
     name: 'Wallet',
     data() {
@@ -25,10 +35,17 @@ export default {
             balance: 0,
             toAddress: null,
             txHash: null,
+            chainId: null,
+            symbolList: {
+                '0x539': 'ETH',
+                '0x61': 'BNB'
+            }
         }
     },
-    mounted () {
+    async mounted () {
         const that = this;
+        that.isConnected = that.$store.state.isConnectedWallet
+        console.log(that.$store.state)
 
         that.$emitBus.$on('SHOW_WALLET', res=>{
             that.show = true;
@@ -36,39 +53,67 @@ export default {
         that.$emitBus.$on('HIDE_WALLET', res=>{
             that.show = false;
         });
-
-        const web3 = that.$web3;
-        if(web3 && web3.isConnected()){
-            // that.isConnected = true;
-            // that.initAccount(web3);
-        }
     },
     methods: {
         hideWallet(){
             this.show = false;
             this.$emitBus.$emit('WALLET_HIDED');
         },
+        async initWallet(){
+            // const providerOptions = {
+            //     /* See Provider Options Section */
+            // };
+            // const web3Modal = new Web3Modal({
+            //     network: "mainnet", // optional
+            //     cacheProvider: true, // optional
+            //     providerOptions // required
+            // });
+            // const provider = await web3Modal.connect();
+            // const web3 = new Web3(provider);
+
+            // const web3 = that.$web3;
+
+            const that = this;
+            MyWeb3.init().then(web3 => {
+                if(web3 && web3.isConnected()){
+                    that.web3 = web3;
+                    that.isConnected = true;
+                    that.$store.dispatch("setWeb3", that.web3);
+                    that.$store.dispatch("setIsConnectWallet", that.isConnected);
+                    that.initAccount(web3);
+                }
+            })
+        },
         async initAccount(web3){
             const that = this;
             if(!that.isConnected){
                 return;
             }
-            console.log(web3)
-            web3.eth.getAccounts(res=>{
-                console.log(res)
+            web3.eth.getAccounts((err, accounts) => {
+                if(!err){
+                    that.currentAccount = accounts && accounts.length > 0 ? accounts[0] : null;
+                    if(that.currentAccount){
+                        that.$store.dispatch("setCurrentAccount", that.currentAccount);
+                        web3.eth.getBalance(that.currentAccount, (err, res) => {
+                            if(!err && res.c[0]) {
+                                // console.log(web3.currentProvider.chainId)
+                                that.chainId = web3.currentProvider.chainId;
+                                const balance = res.c[0]
+                                that.balance = balance/10000
+                                // that.balance = web3Utils.fromWei(balance + '', 'ether');
+                            }else{
+                                console.log(err);
+                            }
+                        });
+                    }
+                }
             });
-            that.currentAccount = accounts && accounts.length > 0 ? accounts[0] : null;
-            if(that.currentAccount){
-                // 返回指定地址账户的余额
-                const balance = await web3.eth.getBalance(that.currentAccount);
-                that.balance = web3.utils.fromWei(balance, 'ether');
-            }
         }
     }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
     .wallet-con{
         width: 450px;
         position: fixed;
@@ -110,12 +155,35 @@ export default {
             font-size: 14px;
             color: rgba(0,0,0,.8);
             text-align: right;
-            padding-left: 20px;
+            padding-left: 100px;
+            overflow: hidden;
+            white-space:nowrap;
+            text-overflow:ellipsis;
         }
+    }
+    .balance-title{
+        text-align: center;
+        font-size: 20px;
+        padding-top: 200px;
+    }
+    .balance{
+        text-align: center;
+        font-size: 20px;
+        padding-top: 20px;
     }
     .no-connected{
         text-align: center;
         font-size: 20px;
         padding-top: 200px;
+    }
+    .connect-btn{
+        border: 1px solid #ddd;
+        padding: 10px 20px;
+        border-radius: 6px;
+        width: 100px;
+        text-align: center;
+        font-size: 15px;
+        margin: 15px auto 0 auto;
+        cursor: pointer;
     }
 </style>
