@@ -29,26 +29,77 @@
                 <div class="sub-brief">
                     3% of total supply (5 billion MaMo)<br/>is available for sale soon!
                 </div>
+                <div style="clear: both;height:20px;"></div>
+                <self-progress></self-progress>
             </section>
+        </div>
+        <div class="left-time-pic" @click="purchase">
+            <img class="pointer animate__animated animate__heartBeat animate__infinite" src="@/assets/pointer.png"/>
+            <img class="btn" src="@/assets/mamo-icon.png"/>
         </div>
         <div class="card-con">
             <div class="item">
-                <span>FUNDED {{fundedRate}}%</span>
-                <span>= ${{fundedPrice}}</span>
-            </div>
-            <div class="left-time-pic" @click="purchase">
-                <img class="animate__animated animate__heartBeat animate__infinite" src="@/assets/purchase-mobile-btn.png"/>
-            </div>
-            <div class="item">
-                <span>{{mamoPrice}} BUSD</span>
-                <span>Per MaMo</span>
+                <div class="tab">
+                    <div class="title" :class="activeTab==0 ? 'active' : ''" @click="activeTab=0">PHASE2</div>
+                    <div class="title" :class="activeTab==1 ? 'active' : ''" @click="activeTab=1">PHASE3</div>
+                    <div class="title" :class="activeTab==2 ? 'active' : ''" @click="activeTab=2">LAUNCHING DAY</div>
+                </div>
+                <div v-if="activeTab == 0">
+                    <div class="row">
+                        <label>Begin</label>
+                        <span>{{phase2.begin}}</span>
+                    </div>
+                    <div class="row">
+                        <label>End</label>
+                        <span>{{phase2.end}}</span>
+                    </div>
+                    <div class="row">
+                        <label>Total Mamo</label>
+                        <span>{{phase2.totalMamo}}</span>
+                    </div>
+                    <div class="row">
+                        <label>Mamo Price</label>
+                        <span>{{phase2.mamoPrice}}</span>
+                    </div>
+                </div>
+                <div v-if="activeTab == 1">
+                    <div class="row">
+                        <label>Begin</label>
+                        <span>{{phase3.begin}}</span>
+                    </div>
+                    <div class="row">
+                        <label>End</label>
+                        <span>{{phase3.end}}</span>
+                    </div>
+                    <div class="row">
+                        <label>Total Mamo</label>
+                        <span>{{phase3.totalMamo}}</span>
+                    </div>
+                    <div class="row">
+                        <label>Mamo Price</label>
+                        <span>{{phase3.mamoPrice}}</span>
+                    </div>
+                </div>
+                <div v-if="activeTab == 2">
+                    <div class="row">
+                        <label>Date = {{launchDay.date}}</label>
+                    </div>
+                    <div class="row">
+                        <label style="line-height: 30px">Unsold Mamo will thus aliocate add on to reward pool (Tokenomic {{launchDay.tokenomic}}%)</label>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import SelfProgress from './progressMobile';
+
 export default {
+    components:{
+        SelfProgress
+    },
     data() {
         return {
             price: '83833.95',
@@ -56,9 +107,23 @@ export default {
             countDown: [],
             timer: null,
             // 数据
-            fundedRate: 50,
-            fundedPrice: 294823.85,
-            mamoPrice: 0.000085
+            activeTab: 0,
+            phase2:{
+                begin: '01/09/22 00:00 UTC+0',
+                end: '01/09/23 00:00 UTC+0',
+                totalMamo: '4 Billion',
+                mamoPrice: '0.000095 BUSD'
+            },
+            phase3:{
+                begin: '01/09/21 00:00 UTC+0',
+                end: '01/09/21 00:00 UTC+0',
+                totalMamo: '4 Billion',
+                mamoPrice: '0.000095 BUSD'
+            },
+            launchDay:{
+                date: '15th September,2021 00:00 UTC+0',
+                tokenomic: 29
+            }
         }
     },
     mounted(){
@@ -102,19 +167,26 @@ export default {
         position: relative;
     }
     .left-time-pic{
-        width: 120px;
-        text-align: center;
         position: relative;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        margin-top: -45px;
+        z-index: 999;
 
-        img{
-            width: 100px;
-            height: auto;
+        .pointer{
+            height: 40px;
             margin-left: 0;
+            margin-right: 10px;
+        }
+        .btn{
+            height: 80px;
         }
     }
     .left-time-con{
         flex: 1;
-        height: 250px;
+        height: 380px;
         margin-top: 30px;
         border-radius: 10px;
         background-image: linear-gradient(45deg, #00FFF9, #099DFE);
@@ -208,27 +280,64 @@ export default {
 
     .card-con{
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         position: relative;
         z-index: 9;
         margin-top: 20px;
 
         .item{
             flex: 1;
-            background-color: #3c3c3c;
-            height: 60px;
-            color: #fff;
-            font-size: 13px;
+            background-color: #141414;
             display: flex;
-            justify-content: center;
-            align-items: center;
             flex-direction: column;
             border-radius: 10px;
-            font-weight: bold;
-            line-height: 1.4em;
+            padding-bottom: 10px;
 
-            span{
-                display: block;
+            .tab{
+                display: flex;
+                flex-direction: row;
+                background-color: #282828;
+                width: 100%;
+                height: 40px;
+                border-radius: 10px 10px 0 0;
+                overflow: hidden;
+                margin-bottom: 10px;
+
+                .title{
+                    color: #fff;
+                    font-size: 15px;
+                    font-weight: bold;
+                    line-height: 40px;
+                    height: 40px;
+                    text-align: center;
+                    padding: 0 10px;
+                    flex: 1;
+
+                    &:last-child{
+                        flex: none;
+                        padding: 0 15px;
+                    }
+                    &.active{
+                        background-color: #F8AB31;
+                    }
+                }
+            }
+            .row{
+                display: flex;
+                flex-direction: row;
+                padding: 5px 15px;
+
+                label{
+                    color: #a0a0a0;
+                    flex: 1;
+                    display: block;
+                    font-size: 14px;
+                }
+                span{
+                    display: block;
+                    color: #F8AB31;
+                    font-size: 14px;
+                }
             }
         }
     }

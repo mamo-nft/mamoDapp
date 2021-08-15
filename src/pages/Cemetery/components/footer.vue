@@ -96,6 +96,7 @@ export default {
             display: flex;
             flex-direction: row;
             padding: 30px 0 30px 0;
+            max-width: 400px;
 
             .link-item{
                 flex: 1;

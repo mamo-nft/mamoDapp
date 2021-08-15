@@ -33,7 +33,7 @@ export default {
 
 <style lang="less" scoped>
     .main-con{
-        width: 1200px;
+        width: 80%;
         margin: 0 auto;
     }
     .progress-con{
@@ -78,7 +78,7 @@ export default {
             }
             .sub-title{
                 color: #fff;
-                font-size: 20px;
+                font-size: 18px;
                 font-weight: bold;
                 text-shadow: 3px 3px 5px rgba(0,0,0,.6);
                 margin-top: 15px;

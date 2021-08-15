@@ -33,14 +33,14 @@ export default {
 
 <style lang="less" scoped>
     .main-con{
-        margin: 0 20px;
+        margin: 20px 20px 0 20px;
     }
     .progress-con{
-        height: 20px;
+        height: 10px;
         background-color: #fff;
         position: relative;
         margin: 20px 0 0 0;
-        border-radius: 10px;
+        border-radius: 5px;
 
         .progress{
             width: 100%;
@@ -50,8 +50,8 @@ export default {
             box-shadow: 3px 3px 5px rgba(0,0,0,.6);
         }
         .progress-icon{
-            width: 40px;
-            height: 40px;
+            width: 30px;
+            height: 30px;
             position: absolute;
             top: -10px;
             left: 100%;

@@ -10,7 +10,6 @@
                 </div>
             </div>
             <left-time></left-time>
-            <self-progress></self-progress>
             <self-footer></self-footer>
         </div>
     </div>
@@ -20,7 +19,6 @@
 import Bg from '@/components/bgMobile';
 import SelfHeader from '@/components/header';
 import LeftTime from './components/leftTimeMobile';
-import SelfProgress from './components/progressMobile';
 import SelfFooter from './components/footerMobile';
 
 export default {
@@ -28,7 +26,6 @@ export default {
         Bg,
         SelfHeader,
         LeftTime,
-        SelfProgress,
         SelfFooter
     },
 }

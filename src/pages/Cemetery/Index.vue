@@ -9,7 +9,6 @@
                 </div>
             </div>
             <left-time></left-time>
-            <self-progress></self-progress>
             <self-footer></self-footer>
         </div>
         <wallet></wallet>
@@ -19,7 +18,6 @@
 <script>
 import SelfHeader from '@/components/header';
 import LeftTime from './components/leftTime';
-import SelfProgress from './components/progress';
 import SelfFooter from './components/footer';
 import Wallet from '@/components/wallet';
 
@@ -28,7 +26,6 @@ export default {
         SelfHeader,
         SelfFooter,
         LeftTime,
-        SelfProgress,
         Wallet
     },
 }

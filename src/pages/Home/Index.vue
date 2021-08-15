@@ -33,13 +33,6 @@
             <stake></stake>
             <self-footer></self-footer>
 
-<!--            <div>当前账户：{{currentAccount}}</div>-->
-<!--            <div>余额：{{balance}} ETH</div>-->
-<!--            <div>-->
-<!--                <input type="text" v-model="toAddress" placeholder="目标地址"/>-->
-<!--                <button @click="transfer">转账</button>-->
-<!--            </div>-->
-<!--            <button @click="getPhotos">获取图片</button>-->
         </div>
         <wallet></wallet>
     </div>

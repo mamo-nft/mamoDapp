@@ -38,7 +38,8 @@ export default {
             chainId: null,
             symbolList: {
                 '0x539': 'ETH',
-                '0x61': 'BNB'
+                '0x61': 'BNB',
+                '0x38': 'BNB'
             }
         }
     },
@@ -95,8 +96,9 @@ export default {
                     if(that.currentAccount){
                         that.$store.dispatch("setCurrentAccount", that.currentAccount);
                         web3.eth.getBalance(that.currentAccount, (err, res) => {
-                            if(!err && res.c[0]) {
-                                // console.log(web3.currentProvider.chainId)
+                            console.log(res)
+                            if(!err && typeof(res.c[0]) != "undefined") {
+                                console.log(web3.currentProvider.chainId)
                                 that.chainId = web3.currentProvider.chainId;
                                 const balance = res.c[0]
                                 that.balance = balance/10000

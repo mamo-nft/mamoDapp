@@ -29,20 +29,61 @@
                 <div class="sub-brief">
                     3% of total supply (5 billion MaMo) is available for sale soon!
                 </div>
+
+                <self-progress></self-progress>
             </section>
             <div class="left-time-pic" @click="purchase">
-                <div class="btn">Purchase<br/>Token</div>
-                <img class="animate__animated animate__heartBeat animate__infinite" src="@/assets/pointer-icon.png"/>
+                <img class="pointer animate__animated animate__heartBeat animate__infinite" src="@/assets/pointer.png"/>
+                <img class="btn" src="@/assets/mamo-icon.png"/>
             </div>
         </div>
         <div class="card-con">
             <div class="item">
-                <span>FUNDED {{fundedRate}}%</span>
-                <span>= ${{fundedPrice}}</span>
+                <div class="title">PHASE2</div>
+                <div class="row">
+                    <label>Begin</label>
+                    <span>{{phase2.begin}}</span>
+                </div>
+                <div class="row">
+                    <label>End</label>
+                    <span>{{phase2.end}}</span>
+                </div>
+                <div class="row">
+                    <label>Total Mamo</label>
+                    <span>{{phase2.totalMamo}}</span>
+                </div>
+                <div class="row">
+                    <label>Mamo Price</label>
+                    <span>{{phase2.mamoPrice}}</span>
+                </div>
             </div>
             <div class="item">
-                <span>{{mamoPrice}} BUSD</span>
-                <span>Per MaMo</span>
+                <div class="title">PHASE3</div>
+                <div class="row">
+                    <label>Begin</label>
+                    <span>{{phase3.begin}}</span>
+                </div>
+                <div class="row">
+                    <label>End</label>
+                    <span>{{phase3.end}}</span>
+                </div>
+                <div class="row">
+                    <label>Total Mamo</label>
+                    <span>{{phase3.totalMamo}}</span>
+                </div>
+                <div class="row">
+                    <label>Mamo Price</label>
+                    <span>{{phase3.mamoPrice}}</span>
+                </div>
+            </div>
+            <div class="item">
+                <div class="title">LAUNCHING DAY</div>
+                <div class="row">
+                    <label>Date = {{launchDay.date}}</label>
+                </div>
+                <div class="row">
+                    <label style="line-height: 30px">Unsold Mamo will thus aliocate add on to reward pool (Tokenomic {{launchDay.tokenomic}}%)</label>
+                </div>
             </div>
         </div>
     </div>
@@ -50,21 +91,37 @@
 
 <script>
 import swal from 'sweetalert';
+import SelfProgress from './progress'
 import web3Utils from 'web3-utils';
 
 export default {
+    components:{
+        SelfProgress
+    },
     data() {
         return {
             price: '83833.95',
             nextReward: '254875',
             countDown: [],
             timer: null,
-            // Data
-            fundedRate: 50,
-            fundedPrice: 294823.85,
-            mamoPrice: 0.000085,
-            // To
-            toAddress: '0x14271ab02507A1a537686C0f40d8D059886c69b4'
+            toAddress: '0x3f7734094f272A42868b66BB910cc53542cF34df',
+            // 数据
+            phase2:{
+                begin: '01/09/21 00:00 UTC+0',
+                end: '01/09/21 00:00 UTC+0',
+                totalMamo: '4 Billion',
+                mamoPrice: '0.000095 BUSD'
+            },
+            phase3:{
+                begin: '01/09/21 00:00 UTC+0',
+                end: '01/09/21 00:00 UTC+0',
+                totalMamo: '4 Billion',
+                mamoPrice: '0.000095 BUSD'
+            },
+            launchDay:{
+                date: '15th September,2021 00:00 UTC+0',
+                tokenomic: 29
+            }
         }
     },
     mounted(){
@@ -94,16 +151,15 @@ export default {
             return [DD, hh, mm, ss];
         },
         purchase(){
-            const that = this
-            const state = this.$store.state
+            const state = this.$store.state;
             if(!state.web3){
                 console.log('web3不可用');
-                if(!state.isConnectedWallet){
+                if(!state.isConnected){
                     swal({
                         text: "Wallet is not connected!",
                     });
+                    return;
                 }
-                return;
             }
             if(!this.toAddress){
                 console.log('请输入目标地址');
@@ -112,18 +168,19 @@ export default {
                 console.log('不能转给自己');
                 return;
             }
+
             const web3 = state.web3;
             let value = web3Utils.toWei('1', 'ether')
-            const message = {from: state.currentAccount, to: that.toAddress, value: value};
+            var message = {from: state.currentAccount, to: this.toAddress, value: value};
             web3.eth.sendTransaction(message, (err, res) => {
                 if (!err) {
+                    const txHash = res
                     swal({
-                        title: "Purchase Successful!",
-                        text: "TxHash:" + res,
-                        icon: "success"
+                        title: 'Purchase successful!',
+                        text: "TxHash:" + txHash,
                     });
                 } else {
-                    console.log("Error:" + err);
+                    console.log("Error:" + err)
                 }
             })
         }
@@ -141,42 +198,31 @@ export default {
         padding-bottom: 100px;
     }
     .left-time-pic{
-        width: 380px;
-        height: 260px;
+        width: 480px;
+        height: 200px;
+        margin-left: -240px;
         position: absolute;
-        bottom: 0;
-        right: -200px;
+        left: 50%;
+        bottom: 10px;
         z-index: 9;
         overflow: hidden;
+        display: flex;
+        align-items: center;
 
-        img{
-            width: 100px;
-            height: auto;
-            margin-top: -60px;
-            margin-left: 0;
+        .pointer{
+            height: 90px;
+            margin-left: 30px;
         }
         .btn{
-            width: 160px;
-            height: 160px;
+            width: 200px;
+            height: 200px;
             margin-left: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            line-height: 1.4em;
-            color: #fff;
-            font-size: 28px;
-            font-weight: bold;
-            text-shadow: 3px 3px 5px rgba(0,0,0,.8);
-            background-image: linear-gradient(135deg, #FFF944, #F8AB31);
-            border-radius: 85px 85px 85px 0;
-            border: 10px solid #fff;
             cursor: pointer;
         }
     }
     .left-time-con{
         flex: 1;
-        height: 450px;
+        height: 700px;
         margin-top: 100px;
         border-radius: 10px;
         background-image: linear-gradient(45deg, #00FFF9, #099DFE);
@@ -274,25 +320,43 @@ export default {
         flex-direction: row;
         position: relative;
         z-index: 9;
+        margin: 50px -20px 0 -20px;
 
         .item{
-            background-color: #3c3c3c;
-            height: 100px;
-            color: #fff;
-            font-size: 26px;
+            flex: 1;
+            background-color: #141414;
             display: flex;
-            justify-content: center;
-            align-items: center;
             flex-direction: column;
-            width: 350px;
             border-radius: 10px;
-            font-weight: bold;
-            line-height: 1.4em;
-            margin-left: 60px;
-            margin-top: -50px;
+            margin: 0 20px 0 20px;
+            padding-bottom: 10px;
 
-            span{
-                display: block;
+            .title{
+                color: #fff;
+                font-size: 26px;
+                font-weight: bold;
+                background-color: #282828;
+                width: 100%;
+                height: 50px;
+                line-height: 50px;
+                text-align: center;
+                margin-bottom: 10px;
+                border-radius: 10px 10px 0 0;
+            }
+            .row{
+                display: flex;
+                flex-direction: row;
+                padding: 5px 15px;
+
+                label{
+                    color: #a0a0a0;
+                    flex: 1;
+                    display: block;
+                }
+                span{
+                    display: block;
+                    color: #F8AB31;
+                }
             }
         }
     }
