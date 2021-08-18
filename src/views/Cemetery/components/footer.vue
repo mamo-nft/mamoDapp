@@ -15,8 +15,8 @@
                 Nitify Me When It`s Ready
             </div>
             <div class="send-email-con">
-                <input type="email" placeholder="Your Email Address"/>
-                <div class="send-email-btn">Subscribe</div>
+                <input type="email" v-model="email" placeholder="Your Email Address"/>
+                <div class="send-email-btn" @click="doSubscribe">Subscribe</div>
             </div>
 
             <div class="title">MaMo Community Channels</div>
@@ -42,10 +42,27 @@
 </template>
 
 <script>
+import {subscribe} from '@/api/common'
+import swal from 'sweetalert';
 export default {
     data() {
         return {
             email: null
+        }
+    },
+    methods:{
+        doSubscribe(){
+            if(!this.email){
+                swal({
+                    text: "Email cannot be empty!",
+                });
+                return;
+            }
+            subscribe({email: this.email}).then(res => {
+                swal({
+                    text: "Subscribe successful!",
+                });
+            })
         }
     }
 }
@@ -114,6 +131,7 @@ export default {
             width: 450px;
             overflow: hidden;
             margin-top: 15px;
+            cursor: pointer;
 
             input{
                 flex: 1;

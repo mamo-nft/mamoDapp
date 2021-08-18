@@ -12,6 +12,7 @@
             <left-time></left-time>
             <self-footer></self-footer>
         </div>
+        <wallet></wallet>
     </div>
 </template>
 
@@ -20,13 +21,15 @@ import Bg from '@/components/bgMobile';
 import SelfHeader from '@/components/header';
 import LeftTime from './components/leftTimeMobile';
 import SelfFooter from './components/footerMobile';
+import Wallet from '@/components/wallet';
 
 export default {
     components:{
         Bg,
         SelfHeader,
         LeftTime,
-        SelfFooter
+        SelfFooter,
+        Wallet
     },
 }
 </script>

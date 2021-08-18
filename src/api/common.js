@@ -8,3 +8,11 @@ export function getDex(data) {
         data
     })
 }
+
+export function subscribe(data){
+    return request({
+        url: "/test.php",
+        method: "post",
+        data
+    })
+}

@@ -35,7 +35,7 @@ export default {
     .page-con{
         width: 100%;
         background-color: #000;
-        background-image: url(/static/images/bg-2.jpg);
+        background-image: url(../../assets/images/bg-2.jpg);
         background-size: 100% auto;
         background-repeat: no-repeat;
     }

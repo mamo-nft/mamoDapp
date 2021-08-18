@@ -16,7 +16,7 @@
             </div>
             <div class="send-email-con">
                 <input type="email" v-model="email" placeholder="Your Email Address"/>
-                <div class="send-email-btn" @click="subscribe">Subscribe</div>
+                <div class="send-email-btn" @click="doSubscribe">Subscribe</div>
             </div>
 
             <div class="title">MaMo Community Channels</div>
@@ -42,6 +42,8 @@
 </template>
 
 <script>
+import {subscribe} from '@/api/common'
+import swal from 'sweetalert';
 export default {
     data() {
         return {
@@ -49,8 +51,18 @@ export default {
         }
     },
     methods:{
-        subscribe(){
-            // TODO
+        doSubscribe(){
+            if(!this.email){
+                swal({
+                    text: "Email cannot be empty!",
+                });
+                return;
+            }
+            subscribe({email: this.email}).then(res => {
+                swal({
+                    text: "Subscribe successful!",
+                });
+            })
         }
     }
 }

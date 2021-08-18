@@ -7,7 +7,10 @@ export default new Vuex.Store({
     state: {
         web3: null,
         isConnectedWallet: false,
-        currentAccount: null
+        currentAccount: null,
+        currentChainSymbol: null
+    },
+    mutations: {
     },
     actions: {
         setWeb3({commit,state}, val){
@@ -18,9 +21,11 @@ export default new Vuex.Store({
         },
         setCurrentAccount({commit,state}, val){
             state.currentAccount = val
+        },
+        setCurrentChainSymbol({commit,state}, val){
+            state.currentChainSymbol = val
         }
     },
-    mutations: {
-
+    modules: {
     }
 })

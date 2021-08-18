@@ -6,7 +6,10 @@
         <div style="flex: 1;"></div>
         <div class="right-con">
             <img class="btn" src="@/assets/header-btn-1.png" @click="toggleWallet" />
-            <img class="btn" src="@/assets/header-btn-2.png" />
+            <!--<img class="btn" src="@/assets/header-btn-2.png" />-->
+            <div class="address" v-if="$store.state.currentAccount">
+                {{$store.state.currentAccount.substring(0, 3)}}...{{$store.state.currentAccount.substring($store.state.currentAccount.length-4)}}
+            </div>
         </div>
     </div>
 </template>
@@ -51,6 +54,14 @@ export default {
     }
     .header-con .right-con{
         width: auto;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+    .header-con .right-con .address{
+        color: #fff;
+        font-size: 18px;
+        padding-left: 20px;
     }
     .header-con .right-con .btn{
         height: 40px;
