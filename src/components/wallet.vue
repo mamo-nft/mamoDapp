@@ -39,7 +39,7 @@
                 <div class="no-connected">
                     Wallet is not connected!
                 </div>
-                <div class="connect-btn" @click="onConnect">Connect</div>
+                <div class="connect-btn" @click="onConnect(false)">Connect</div>
                 <vue-element-loading
                     :active="isLoading"
                     spinner="spinner"
@@ -105,7 +105,7 @@ export default {
         const that = this;
         that.initWallet()
         that.isConnect = that.$store.state.isConnectedWallet
-        console.log(that.$store.state)
+        that.onConnect(true);
 
         that.$emitBus.$on('SHOW_WALLET', res=>{
             that.show = true;
@@ -172,7 +172,7 @@ export default {
 
             web3Modal = new Web3Modal({
                 network: "mainnet", // optional
-                cacheProvider: false, // optional
+                cacheProvider: true, // optional
                 disableInjectedProvider: false,
                 providerOptions // required
             });
@@ -180,16 +180,18 @@ export default {
         /**
          * Connect wallet button pressed.
          */
-        async onConnect() {
+        async onConnect(isCache) {
             const that = this;
             try {
-                if (provider == null){
+                if ((!isCache && provider == null) || (isCache && web3Modal.cachedProvider)){
                     provider = await web3Modal.connect();
-                    // Get a Web3 instance for the wallet
-                    web3 = new Web3(provider);
-                    that.$store.dispatch("setWeb3", web3);
                 }
-                console.log("provider=====", "connect");
+                // Get a Web3 instance for the wallet
+                if(!provider){
+                    return;
+                }
+                web3 = new Web3(provider);
+                that.$store.dispatch("setWeb3", web3);
             } catch (e) {
                 console.log("Could not get a wallet connection", e);
                 return;

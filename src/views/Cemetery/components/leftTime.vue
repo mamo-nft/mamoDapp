@@ -258,6 +258,7 @@ export default {
                             });
                         }
                     }).catch(err => {
+                        swal.close()
                         console.log(err)
                     });
                 } else if(that.purchaseForm.coin == 'USDT'){
@@ -287,6 +288,7 @@ export default {
                             });
                         }
                     }).catch(err => {
+                        swal.close()
                         console.log(err)
                     });
                 }
