@@ -23,12 +23,12 @@
                         <div class="val">${{balanceData.busdBalance}}</div>
                     </div>
                     <div class="row">
-                        <div class="label">MAMO Balance</div>
-                        <div class="val">${{balanceData.mamoBalance}}</div>
-                    </div>
-                    <div class="row">
                         <div class="label">LP Balance</div>
                         <div class="val">${{balanceData.lpBalance}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="label">MAMO Balance</div>
+                        <div class="val">${{balanceData.mamoBalance}}</div>
                     </div>
                 </div>
                 <div class="disconnect-btn" @click="onDisconnect">
@@ -109,6 +109,9 @@ export default {
 
         that.$emitBus.$on('SHOW_WALLET', res=>{
             that.show = true;
+            if(that.isConnect){
+                that.fetchAccountData();
+            }
         });
         that.$emitBus.$on('HIDE_WALLET', res=>{
             that.show = false;
@@ -237,8 +240,8 @@ export default {
             const chainId = await web3.eth.getChainId();
             if(chainId != 56){
                 swal({
-                    title: "错误的网络",
-                    text: "请连接到BSC主网!",
+                    title: "Network error",
+                    text: "Please connect to BSC mainnet!",
                 });
                 that.onDisconnect();
                 return;
@@ -309,23 +312,20 @@ export default {
 
         async getAccountDataFromContract(address){
             const that = this;
+            const state = that.$store.state;
             // get USDT
-            const usdtAbiJson = require("@/abi/usdtAbi.json");
-            const usdtContract = new web3.eth.Contract(usdtAbiJson, '0x55d398326f99059fF775485246999027B3197955');
+            const usdtContract = new web3.eth.Contract(state.abiJson.usdt, state.contractAddress.usdt);
             const usdt = await usdtContract.methods.balanceOf(address).call();
-            console.log('usdt:'+usdt)
-            that.balanceData.usdtBalance = usdt;
+            that.balanceData.usdtBalance = usdt/(10**18);
             // get BUSD
-            const busdAbiJson = require("@/abi/busdAbi.json");
-            const busdContract = new web3.eth.Contract(busdAbiJson, '0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56');
+            const busdContract = new web3.eth.Contract(state.abiJson.busd, state.contractAddress.busd);
             const busd = await busdContract.methods.balanceOf(address).call();
-            that.balanceData.busdBalance = busd;
+            that.balanceData.busdBalance = busd/(10**18);
             // get MAMO
-            const mamoAbiJson = require("@/abi/test.json");
-            const mamoContract = new web3.eth.Contract(mamoAbiJson, '0xc398071075C7715684e67F69CA372201178c6644');
+            const mamoContract = new web3.eth.Contract(state.abiJson.mamo, state.contractAddress.mamo);
             const mamo = await mamoContract.methods.balanceOf(address).call();
-            that.balanceData.mamoBalance = mamo;
-            // get LP
+            that.balanceData.mamoBalance = parseFloat(mamo/(10**18)).toFixed(15);
+            // get LP #TODO
             that.balanceData.lpBalance = 0;
 
             that.isLoading = false;

@@ -8,7 +8,17 @@ export default new Vuex.Store({
         web3: null,
         isConnectedWallet: false,
         currentAccount: null,
-        currentChainSymbol: null
+        currentChainSymbol: null,
+        contractAddress: {
+            usdt: '0x55d398326f99059fF775485246999027B3197955',
+            busd: '0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56',
+            mamo: '0xc398071075C7715684e67F69CA372201178c6644'
+        },
+        abiJson: {
+            usdt: require("@/abi/usdtAbi.json"),
+            busd: require("@/abi/busdAbi.json"),
+            mamo: require("@/abi/test.json")
+        }
     },
     mutations: {
     },
