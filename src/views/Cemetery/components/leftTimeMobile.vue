@@ -232,54 +232,69 @@ export default {
                 let num = this.purchaseForm.num;
                 num = 0.000001;// #TODO 测试用，发布时删除
                 num = web3.utils.toWei(num + '', 'ether');
+                swal({
+                    text: "Transaction in progress, please wait...",
+                });
                 if(that.purchaseForm.coin == 'BUSD'){
                     const busdContract = new web3.eth.Contract(state.abiJson.busd, state.contractAddress.busd);
-                    let res = await busdContract.methods.approve(state.contractAddress.mamo, num);
-                    console.log(res)
-                    if(res){
-                        const mamoContract = new web3.eth.Contract(state.abiJson.mamo, state.contractAddress.mamo);
-                        res = await mamoContract.methods.crowdSaleWithBusd(num);
-                        console.log('sale result:')
+                    busdContract.methods.approve(state.contractAddress.mamo, num).send({from: state.currentAccount}).then(async (res)=>{
                         console.log(res)
                         if(res){
-                            swal({
-                                text: "Successful transaction!",
-                                icon: "success"
+                            const mamoContract = new web3.eth.Contract(state.abiJson.mamo, state.contractAddress.mamo);
+                            mamoContract.methods.crowdSaleWithBusd(num).send({from: state.currentAccount}).then(async res=>{
+                                console.log('sale result:')
+                                console.log(res)
+                                swal.close()
+                                if(res){
+                                    swal({
+                                        text: "Successful transaction!",
+                                        icon: "success"
+                                    });
+                                } else {
+                                    swal({
+                                        text: "Transaction failed!",
+                                    });
+                                }
                             });
                         } else {
                             swal({
                                 text: "Transaction failed!",
                             });
                         }
-                    } else {
-                        swal({
-                            text: "Transaction failed!",
-                        });
-                    }
+                    }).catch(err => {
+                        swal.close()
+                        console.log(err)
+                    });
                 } else if(that.purchaseForm.coin == 'USDT'){
                     const usdtContract = new web3.eth.Contract(state.abiJson.usdt, state.contractAddress.usdt);
-                    let res = await usdtContract.methods.approve(state.contractAddress.mamo, num);
-                    console.log(res)
-                    if(res){
-                        const mamoContract = new web3.eth.Contract(state.abiJson.mamo, state.contractAddress.mamo);
-                        res = await mamoContract.methods.crowdSaleWithUsdt(num);
-                        console.log('sale result:')
+                    usdtContract.methods.approve(state.contractAddress.mamo, num).send({from: state.currentAccount}).then(async (res)=>{
                         console.log(res)
                         if(res){
-                            swal({
-                                text: "Successful transaction!",
-                                icon: "success"
+                            const mamoContract = new web3.eth.Contract(state.abiJson.mamo, state.contractAddress.mamo);
+                            mamoContract.methods.crowdSaleWithUsdt(num).send({from: state.currentAccount}).then(async res=>{
+                                console.log('sale result:')
+                                console.log(res)
+                                swal.close()
+                                if(res){
+                                    swal({
+                                        text: "Successful transaction!",
+                                        icon: "success"
+                                    });
+                                } else {
+                                    swal({
+                                        text: "Transaction failed!",
+                                    });
+                                }
                             });
                         } else {
                             swal({
                                 text: "Transaction failed!",
                             });
                         }
-                    } else {
-                        swal({
-                            text: "Transaction failed!",
-                        });
-                    }
+                    }).catch(err => {
+                        swal.close()
+                        console.log(err)
+                    });
                 }
             });
         },
